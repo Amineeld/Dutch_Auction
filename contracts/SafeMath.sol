@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.6.0 <0.9.0;
+
+library SafeMath {
+  function mul(uint256 a, uint256 b) internal returns (uint256) {
+    uint256 c = a * b;
+    assert(a == 0 || c / a == b);
+    return c;
+  }
+  function div(uint256 a, uint256 b) internal returns (uint256) {
+    assert(b > 0);
+    uint256 c = a / b;
+    assert(a == b * c + a % b);
+    return c;
+  }
+  function sub(uint256 a, uint256 b) internal returns (uint256) {
+    assert(b <= a);
+    return a - b;
+  }
+  function add(uint256 a, uint256 b) internal returns (uint256) {
+    uint256 c = a + b;
+    assert(c >= a);
+    return c;
+  }
+
+}
