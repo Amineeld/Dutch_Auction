@@ -1,0 +1,44 @@
+Implementation of the Dutch Auction.
+
+The Dutch Auction is a type of reverse auction. The auctioneer starts with a high asking price and gradually lowers it until someone bids. The bidder is the winner.
+
+
+If something needs to be sold, a price has to be found. Many systems have been created to facilitate price discovery: negotiations, order books, market research and even horoscopes. However, none are as effective at immediate price discovery as auctions. They are the way to facilitate the sale of anything – an artwork, a deed or a right – to the immediate market. 
+Their simplicity, effectiveness and power have cemented auctions as a cornerstone of decentralized finance and one auction type is almost universally found among the largest decentralised finance applications: the Dutch Auction. The total duration is known before the auction has begun; it is incredibly effective at price discovery because of its completely transparent and predictable operation; it allows immediate delivery upon payment, and most importantly it allows for the fewest transactions for everybody: 1. Paid by the buyer.
+
+We can split the dutch auction into 2 subgroups: winner takes it all or a pot. The winner takes it all is the most common dutch auction, used by Aave, MakerDAO and Compound because it provides all the features of the ideal dutch auction. However, the buyer needs to provide all of the capital to buy the whole lot. An alternative is to let buyers share the pot by allowing buyers to reserve tokens. Users will be able to reserve parts of the lot continuously and once the whole lot has been reserved, the auction is concluded at the current price. While the pot auction foregoes a lot of the advantages of a WTIA dutch auction, it is likely to result in a higher final price. 
+
+
+
+Lifetime of Winner Takes It All
+The auction is initiated with a start date, end date and a start price.
+The price is always known at any time as the linear line connecting the points:
+start date, start price. (startPrice = a · startDate + b)
+end date, 0. (0 = a · end date + b)
+Once someone bids, they are immediately provided with the assets. In a smart contract, delivery is often provided by a privileged function call on behalf of the contract. 
+It is important that the delivery is immediate, as a potential winner might use a flash loan to get the required capital.
+
+The WTIA auction is simpler than the pot auction but it limits participation to the few who can afford the high upfront cost.
+Lifetime of Pot Auction
+The auction is initiated with a start date, end date, start price, reserve price and total size of lot.
+The price is always known at any time as the linear line connecting the points:
+start date, start price. (startPrice = a · startDate + b)
+end date, reserve price. (reservePrice = a · end date + b)
+Once someone bids, the auction need to:
+Check if the reserved assets + bid is greater than the size of lot.
+If not, add the bid to the number of reserved assets
+Else: Accept the difference between reserved assets and size of lot as a bid. End the auction at the current price.
+Take payment for the bid.
+Fulfill the obligations to the bidders.
+The bidders should have the difference between the price when they entered and the final price refunded.
+
+A pot auction is more complicated than a WTIA auction but it allows more people to participate. This is likely to end the auction at a higher price than a WTIA auction.
+
+Task
+The task is to choose 1 of the 2 auction descriptions to implement in a smart contract language like Anchor, Solidity or Vyper.
+The smart contract should be covered by tests showcasing how to interact with the smart contract and the described lifetime of the auction. 
+
+Testing frameworks for Solidity and Vyper are eth-brownie (python), Truffle (javascript) or Hardhat (javascript). Eth-brownie is recommended, but Truffle and Hardhat are fine.
+Anchor contains a truffle-like test suite.
+
+Any library or code snippet released under a permissive license like MIT can be used. If you are uncertain if a code snipped is released under a permissive license, assume it is not.
